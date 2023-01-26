@@ -1,0 +1,27 @@
+{
+  "name": "tictacyurr",
+  "version": "1.0.0",
+  "description": "A NYC styled game of Tic Tac Toe",
+  "main": "bin/index.mjs",
+  "bin": {
+    "tictacyurr": "./bin/index.mjs"
+  },
+  "scripts": {
+    "test": "mocha tests/**/**.spec.mjs",
+    "install": "npm install -g .",
+    "uninstall": "npm uninstall -g tictacyurr"
+  },
+  "author": "Carrington",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0"
+  },
+  "dependencies": {
+    "boxen": "^7.0.1",
+    "chalk": "^5.2.0",
+    "inquirer": "^9.1.4",
+    "uuid": "^9.0.0",
+    "yargs": "^17.6.2"
+  }
+}
