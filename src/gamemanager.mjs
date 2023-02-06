@@ -1,5 +1,5 @@
-import Gameboard from "./gameboard.mjs";
 import readline from "readline";
+import Gameboard from "./gameboard.mjs";
 
 let reader = readline.createInterface({
   input: process.stdin,
