@@ -7,8 +7,9 @@
     "tictacyurr": "./bin/index.mjs"
   },
   "scripts": {
-    "test": "mocha tests/**/**.spec.mjs",
-    "install": "npm install -g .",
+    "build": "npm install -g . && tictacyurr",
+    "test": "mocha tests/**/gameboard.spec.mjs",
+    "install": "npm install -g . --verbose",
     "uninstall": "npm uninstall -g tictacyurr"
   },
   "author": "Carrington",
