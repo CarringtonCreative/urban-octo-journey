@@ -1,6 +1,8 @@
 import readline from "readline";
+import Gui from "./gui.mjs";
 import Gameboard from "./gameboard.mjs";
 import GameState from "./gamestate.mjs";
+import GameValidator from "./gamevalidator.mjs";
 import { SYMBOL } from "./constants.mjs";
 
 let reader = readline.createInterface({
@@ -8,18 +10,19 @@ let reader = readline.createInterface({
   output: process.stdout,
 });
 
-const prompts = [
-  `${SYMBOL.X}'s turn ... select a square (1-9)\n`,
-  `${SYMBOL.Y}'s turn ... select a square (1-9)\n`,
-];
+const gui = new Gui();
+
+const prompts = [`\t It's ${SYMBOL.X} turn \n`, `\t It's ${SYMBOL.Y} turn \n`];
 
 export default class GameManager {
   state;
-  board;
+  gameboard;
+  validator;
   constructor() {
     this.state = new GameState();
-    this.board = new Gameboard();
-    this.board.initiaze();
+    this.gameboard = new Gameboard();
+    this.validator = new GameValidator();
+    this.gameboard.initialize();
   }
 
   transposePosition = (num) => {
@@ -48,22 +51,38 @@ export default class GameManager {
   };
 
   run = () => {
-    const prompt = prompts[this.state.turn];
-    reader.question(prompt, (input) => {
+    this.prompt();
+    const message = gui.getMessage(prompts[this.state.turn]);
+    reader.question(message, (input) => {
       if (String(input).toLowerCase() === "exit") return reader.close();
       if (!input || input < "1" || input > "9") {
+        this.prompt();
         this.run();
       } else {
         input = Number(input);
+        let [row, col] = this.transposePosition(input);
         let symbol = this.state.getPlayerSymbol();
-        let pos = this.transposePosition(input);
-        let result = this.board.onFillSquare(pos[0], pos[1], symbol);
+        let result = this.gameboard.onFillSquare(row, col, symbol);
         if (result) {
-          this.board.onPrint();
+          const board = this.gameboard.board;
+          const rows = this.gameboard.rows;
+          const cols = this.gameboard.cols;
+          const isWin = this.validator.isWin(row, col, symbol, board);
+          if (isWin) {
+            gui.printWin(symbol);
+            gui.printBoard(rows, cols, board);
+            return reader.close();
+          }
+          gui.printBoard(rows, cols, board);
           this.state.onUpdateTurn();
         }
         this.run();
       }
     });
+  };
+
+  prompt = () => {
+    const message = "\t Select a valid square (1-9) ";
+    gui.printMessage(message);
   };
 }
