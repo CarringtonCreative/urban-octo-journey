@@ -11,7 +11,6 @@ let reader = readline.createInterface({
 });
 
 const gui = new Gui();
-
 const prompts = [`\t It's ${SYMBOL.X} turn \n`, `\t It's ${SYMBOL.Y} turn \n`];
 
 export default class GameManager {
@@ -55,34 +54,40 @@ export default class GameManager {
     const message = gui.getMessage(prompts[this.state.turn]);
     reader.question(message, (input) => {
       if (String(input).toLowerCase() === "exit") return reader.close();
-      if (!input || input < "1" || input > "9") {
+      if (this.isInvalidInput(input)) {
         this.prompt();
-        this.run();
       } else {
-        input = Number(input);
-        let [row, col] = this.transposePosition(input);
-        let symbol = this.state.getPlayerSymbol();
-        let result = this.gameboard.onFillSquare(row, col, symbol);
-        if (result) {
-          const board = this.gameboard.board;
-          const rows = this.gameboard.rows;
-          const cols = this.gameboard.cols;
-          const isWin = this.validator.isWin(row, col, symbol, board);
-          if (isWin) {
-            gui.printWin(symbol);
-            gui.printBoard(rows, cols, board);
-            return reader.close();
-          }
-          gui.printBoard(rows, cols, board);
-          this.state.onUpdateTurn();
-        }
-        this.run();
+        const done = this.handleUserInput(Number(input), reader);
+        if (done) return reader.close();
       }
+      this.run();
     });
+  };
+
+  isInvalidInput = (input) => {
+    return !input || input < "1" || input > "9";
   };
 
   prompt = () => {
     const message = "\t Select a valid square (1-9) ";
     gui.printMessage(message);
+  };
+
+  handleUserInput = (input, reader) => {
+    let [row, col] = this.transposePosition(input);
+    let symbol = this.state.getPlayerSymbol();
+    let result = this.gameboard.onFillSquare(row, col, symbol);
+    if (result) {
+      const { board, rows, cols } = this.gameboard;
+      const isWin = this.validator.isWin(row, col, symbol, board);
+      if (isWin) {
+        gui.printWin(symbol);
+        gui.printBoard(rows, cols, board);
+        return true;
+      }
+      gui.printBoard(rows, cols, board);
+      this.state.onUpdateTurn();
+    }
+    return false;
   };
 }

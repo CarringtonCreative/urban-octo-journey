@@ -15,7 +15,7 @@ export default class Gameboard {
     for (let i = 0; i < this.rows; i++) {
       this.board[i] = [];
       for (let j = 0; j < this.cols; j++) {
-        let gamesquare = new GameSquare(i, j, SYMBOL.BLANK, COLOR.WHITE);
+        let gamesquare = new GameSquare(i, j, SYMBOL.BLANK);
         this.board[i][j] = gamesquare;
       }
     }
