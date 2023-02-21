@@ -1,3 +1,5 @@
+import { SYMBOL } from "./constants.mjs";
+
 export default class GameState {
   score;
   turn;
@@ -19,5 +21,9 @@ export default class GameState {
   onUpdateTurn = () => {
     this.turn = this.turn ? 0 : 1;
     return this.turn;
+  };
+
+  getPlayerSymbol = () => {
+    return this.turn ? SYMBOL.Y : SYMBOL.X;
   };
 }

@@ -7,7 +7,7 @@ describe("Testing Gameboard module", () => {
   const rows = 3;
   const cols = 3;
   const gameboard = new Gameboard(rows, cols);
-  gameboard.initiazeBoard();
+  gameboard.initiaze();
 
   it("should return 3 rows and 3 cols", () => {
     expect(gameboard.rows).to.equal(3);
@@ -26,7 +26,7 @@ describe("Testing Gameboard module", () => {
     expect(typeof gameboard.board[0][0]).to.be.equal(typeof new GameSquare());
   });
   it("should return reset gameboard", () => {
-    gameboard.onResetBoard();
+    gameboard.onReset();
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < cols; j++) {
         const square = gameboard.board[i][j];
@@ -65,5 +65,9 @@ describe("Testing Gameboard module", () => {
     const col = 5;
     const result = gameboard.isSquareEmpty(row, col);
     expect(result).to.equal(false);
+  });
+
+  it("should print gameboard", () => {
+    expect(gameboard.onPrint()).to.not.be.undefined;
   });
 });

@@ -7,3 +7,10 @@ export const SYMBOL = {
 export const COLOR = {
   WHITE: "#FFF",
 };
+
+export const GAME_STATE = {
+  PAUSED: "paused",
+  PLAYING: "playing",
+  STOPPED: "stopped",
+  EXIT: "exit",
+};
