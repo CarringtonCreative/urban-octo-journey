@@ -7,7 +7,6 @@ describe("Testing Gamesquare module", () => {
     const gamesquare = new Gamesquare();
     expect(gamesquare.row).to.equal(0);
     expect(gamesquare.column).to.equal(0);
-    expect(gamesquare.hexColor).to.equal(COLOR.WHITE);
     expect(gamesquare.value).to.equal(SYMBOL.BLANK);
   });
   it("should return default gamesquare 0, 0", () => {

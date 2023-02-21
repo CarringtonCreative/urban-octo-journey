@@ -5,40 +5,36 @@ export default class GameValidator {
     let col = 0;
     let previous = board[row][col].value;
     let exploredRow = col === board[row].length;
-    const rowData = [[row, col]];
     while (!exploredRow) {
       const current = board[row][col++].value;
       const symbolStreak = previous === current && current === symbol;
       exploredRow = col === board[row].length;
       if (symbolStreak && exploredRow) {
-        return { isRowWin: true, rowData };
+        return true;
       } else if (!symbolStreak || exploredRow) {
-        return { isRowWin: false, rowData: [] };
+        return false;
       }
-      rowData.push([row, col]);
       previous = current;
     }
-    return { isRowWin: false, rowData: [] };
+    return false;
   };
 
   checkColumn = (col, symbol, board) => {
     let row = 0;
     let previous = board[row][col].value;
     let exploredColumn = row === board.length;
-    const columnData = [[row, col]];
     while (!exploredColumn) {
       const current = board[row++][col].value;
       const symbolStreak = previous === current && current === symbol;
       exploredColumn = row === board.length;
       if (symbolStreak && exploredColumn) {
-        return { isColWin: true, columnData };
+        return true;
       } else if (!symbolStreak || exploredColumn) {
-        return { isColWin: false, columnData: [] };
+        return false;
       }
-      columnData.push([row, col]);
       previous = current;
     }
-    return { isColWin: false, columnData: [] };
+    return false;
   };
 
   checkLeftDiagonal = (symbol, board) => {
@@ -46,21 +42,18 @@ export default class GameValidator {
     let col = 0;
     let previous = board[row][col].value;
     let exploredDiagonal = row === board.length - 1;
-    const leftDiagonalData = [[row, col]];
     while (!exploredDiagonal) {
       const current = board[++row][++col].value;
       const symbolStreak = previous === current && current === symbol;
       exploredDiagonal = row === board.length - 1;
-      leftDiagonalData.push([row, col]);
       if (symbolStreak && exploredDiagonal) {
-        return { isLeftDiagonalWin: true, leftDiagonalData };
+        return true;
       } else if (!symbolStreak || exploredDiagonal) {
-        return { isLeftDiagonalWin: false, leftDiagonalData: [] };
+        return false;
       }
-      leftDiagonalData.push([row, col]);
       previous = current;
     }
-    return { isLeftDiagonalWin: false, leftDiagonalData: [] };
+    return false;
   };
 
   checkRightDiagonal = (symbol, board) => {
@@ -68,37 +61,29 @@ export default class GameValidator {
     let col = board.length - 1;
     let previous = board[row][col].value;
     let exploredDiagonal = col === 0;
-    const rightDiagonalData = [[row, col]];
     while (!exploredDiagonal) {
       const current = board[++row][--col].value;
       const symbolStreak = previous === current && current === symbol;
       exploredDiagonal = row === board.length - 1 && col === 0;
       if (symbolStreak && exploredDiagonal) {
-        return { isRightDiagonalWin: true, rightDiagonalData };
+        return true;
       } else if (!symbolStreak || exploredDiagonal) {
-        return { isRightDiagonalWin: false, rightDiagonalData: [] };
+        return false;
       }
-      rightDiagonalData.push([row, col]);
       previous = current;
     }
-    return { isRightDiagonalWin: false, rightDiagonalData: [] };
+    return false;
   };
 
   isAxialWin = (row, col, symbol, board) => {
-    const { isRowWin, rowData } = this.checkRow(row, symbol, board);
-    const { isColWin, columnData } = this.checkColumn(col, symbol, board);
+    const isRowWin = this.checkRow(row, symbol, board);
+    const isColWin = this.checkColumn(col, symbol, board);
     return isRowWin || isColWin;
   };
 
   isDiagonalWin = (symbol, board) => {
-    const { isLeftDiagonalWin, leftDiagonalData } = this.checkLeftDiagonal(
-      symbol,
-      board
-    );
-    const { isRightDiagonalWin, rightDiagonalData } = this.checkRightDiagonal(
-      symbol,
-      board
-    );
+    const isLeftDiagonalWin = this.checkLeftDiagonal(symbol, board);
+    const isRightDiagonalWin = this.checkRightDiagonal(symbol, board);
     return isLeftDiagonalWin || isRightDiagonalWin;
   };
 
