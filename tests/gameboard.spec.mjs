@@ -7,7 +7,7 @@ describe("Testing Gameboard module", () => {
   const rows = 3;
   const cols = 3;
   const gameboard = new Gameboard(rows, cols);
-  gameboard.initiaze();
+  gameboard.initialize();
 
   it("should return 3 rows and 3 cols", () => {
     expect(gameboard.rows).to.equal(3);
@@ -65,9 +65,5 @@ describe("Testing Gameboard module", () => {
     const col = 5;
     const result = gameboard.isSquareEmpty(row, col);
     expect(result).to.equal(false);
-  });
-
-  it("should print gameboard", () => {
-    expect(gameboard.onPrint()).to.not.be.undefined;
   });
 });

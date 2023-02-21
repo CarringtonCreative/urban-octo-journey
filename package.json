@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "npm install -g . && tictacyurr",
-    "test": "mocha tests/**/gameboard.spec.mjs",
+    "test": "mocha tests/**/**.spec.mjs",
     "install": "npm install -g . --verbose",
     "uninstall": "npm uninstall -g tictacyurr"
   },

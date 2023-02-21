@@ -10,7 +10,7 @@ export default class Gameboard {
     this.cols = cols;
   }
 
-  initiaze = () => {
+  initialize = () => {
     this.board = [];
     for (let i = 0; i < this.rows; i++) {
       this.board[i] = [];
@@ -46,22 +46,5 @@ export default class Gameboard {
     const isValid = this.isValidSquare(row, col);
     if (!isValid) return isValid;
     return this.board[row][col].value === SYMBOL.BLANK;
-  };
-
-  onPrint = () => {
-    let output = "";
-    for (let i = 0; i < this.rows; i++) {
-      for (let j = 0; j < this.cols; j++) {
-        output += this.board[i][j].value;
-        if (j >= 0 && j < this.cols - 1) {
-          output += " | ";
-        }
-        if (j == this.cols - 1) {
-          output += "\n";
-        }
-      }
-    }
-    console.log(output);
-    return output;
   };
 }
